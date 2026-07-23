@@ -1,0 +1,20 @@
+# dependencies
+node_modules
+
+# build output (Vercel builds this for us)
+dist
+
+# local single-file copies of the build
+For-Her.html
+
+# old prototype kept locally, not needed in the repo
+legacy
+
+# misc
+*.log
+.DS_Store
+.vscode
+scratch_model
+
+# Claude Code local settings
+.claude

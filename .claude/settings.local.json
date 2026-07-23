@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check script.js)",
+      "Bash(node -e \"global.window={}; require\\('./config.js'\\); console.log\\('config.js OK — letters:', window.LOVE_CONFIG.letters.length, 'reasons:', window.LOVE_CONFIG.reasons.length\\)\")",
+      "Bash(start \"\" \"index.html\")",
+      "Bash(node -e \"global.window={matchMedia:\\(\\)=>\\({matches:false}\\)}; require\\('./config.js'\\); var c=window.LOVE_CONFIG; console.log\\('config OK — taunts:',c.noTaunts.length,'| letter chars:',c.letterBody.length\\)\")",
+      "Bash(npm -v)",
+      "Bash(npm ping *)",
+      "Bash(echo \"exit: $?\")",
+      "Bash(mkdir -p legacy)",
+      "Bash(mv index.html letter.html style.css script.js config.js README.md legacy/)",
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(npx tsc *)",
+      "Bash(echo \"---tsc exit: $?---\")",
+      "Bash(start \"\" \"dist/index.html\")",
+      "Bash(npx playwright *)",
+      "Bash(curl -s \"https://commons.wikimedia.org/w/api.php?action=query&list=categorymembers&cmtitle=Category:Flowers%20with%20transparent%20background&cmtype=file&cmlimit=200&format=json\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);const pngs=\\(j.query.categorymembers||[]\\).filter\\(s=>/\\\\.png$/i.test\\(s.title\\)\\);console.log\\('TOTAL PNG:',pngs.length\\);pngs.forEach\\(s=>console.log\\(s.title\\)\\)}\\)\")",
+      "Bash(start \"\" \"For-Her.html\")",
+      "WebSearch",
+      "Bash(taskkill //F //IM node.exe)",
+      "Bash(rm -f scripts/ui.mjs scripts/probe.mjs)",
+      "Bash(curl -s \"https://api.polyhaven.com/assets?type=models\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\);process.stdin.on\\('end',\\(\\)=>{try{const j=JSON.parse\\(d\\);const keys=Object.keys\\(j\\);const hits=keys.filter\\(k=>{const t=\\(j[k].tags||[]\\).join\\(' '\\).toLowerCase\\(\\);const n=\\(j[k].name||''\\).toLowerCase\\(\\);return /flower|plant|rose|tulip|bouquet|blossom|floral|potted|vase/.test\\(t+' '+n+' '+k\\)}\\);console.log\\('TOTAL models:',keys.length\\);hits.forEach\\(k=>console.log\\('-',k,'|',j[k].name,'|',\\(j[k].tags||[]\\).slice\\(0,6\\).join\\(','\\)\\)\\) }\\)}catch\\(e\\){console.log\\('ERR',e.message,d.slice\\(0,120\\)\\)}}\")",
+      "Bash(node scripts/findmodel.mjs)",
+      "Bash(node scripts/findmodel.mjs flower_gazania 1k)",
+      "Bash(node scripts/findmodel.mjs flower_ursinia 1k)",
+      "Bash(node scripts/getglb.mjs flower_gazania 1k gazania)",
+      "Bash(node scripts/inspectglb.mjs src/assets/gazania.glb)",
+      "Bash(cp dist/index.html \"For-Her.html\")",
+      "Bash(cp dist/index.html 'C:\\\\Users\\\\sshiv/Desktop/For-Her.html')",
+      "Bash(rm -rf scripts scratch_model)",
+      "Bash(git init *)",
+      "Bash(git config *)",
+      "Bash(git add *)",
+      "Bash(git rm *)"
+    ]
+  }
+}
