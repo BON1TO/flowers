@@ -5,7 +5,7 @@
    ============================================================ */
 
 export const CONFIG = {
-  herName: "My Love", // ← put her name here
+  herName: "Sugandh", // ← put her name here
   yourName: "Yours, always", // ← how you sign off
 
   // Page 1 — the question
