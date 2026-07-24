@@ -63,7 +63,7 @@ interface Inst {
   phase: number;
 }
 
-export function RoseBouquet({ seed, count, onDone }: { seed: number; count: number; onDone?: () => void }) {
+export function RoseBouquet({ seed, count, spread = 1, onDone }: { seed: number; count: number; spread?: number; onDone?: () => void }) {
   const root = useMemo(() => new THREE.Group(), [seed]);
   const instances = useRef<Inst[]>([]);
   const built = useRef(0);
@@ -72,6 +72,12 @@ export function RoseBouquet({ seed, count, onDone }: { seed: number; count: numb
   const make = (i: number, appended: boolean): Inst => {
     const recipe = FLOWERS_3D_BY_KEY[MIX[i % MIX.length]];
     const d = domeDir(i);
+    // narrow the bouquet (pull flowers more upright) on phones so nothing clips off the sides
+    if (spread !== 1) {
+      d.x *= spread;
+      d.z *= spread;
+      d.normalize();
+    }
     const L = 1.3 + Math.max(d.y, 0) * 1.9 + rand(i, seed, 1) * 1.4; // taller toward the top, shorter cascading ones
 
     // curved stem: rises up first, then arcs toward its dome direction

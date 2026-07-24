@@ -39,16 +39,13 @@ function FitCamera() {
     const cam = camera as PerspectiveCamera;
     const aspect = size.width / size.height;
     const vfov = (cam.fov * Math.PI) / 180;
-    const halfH = 3.5;
-    const halfW = 3.0; // a touch of side margin for the vertical labels
+    // phones use a slim, tall bouquet so it fills the screen with no side clipping
+    const halfH = IS_MOBILE ? 3.8 : 3.5;
+    const halfW = IS_MOBILE ? 1.55 : 3.0;
     const distH = halfH / Math.tan(vfov / 2);
     const hfov = 2 * Math.atan(Math.tan(vfov / 2) * aspect);
     const distW = halfW / Math.tan(hfov / 2);
-    // desktop: contain the whole bouquet. phones: fill the tall screen (taller/bigger),
-    // letting the outermost side flowers spill past the edges so it covers more.
-    const contain = Math.max(distH, distW) * 1.06;
-    const cover = distH * 1.16;
-    const dist = Math.min(Math.max(IS_MOBILE ? cover : contain, 4), 26);
+    const dist = Math.min(Math.max(Math.max(distH, distW) * 1.05, 4), 26);
     cam.position.set(0, 3.3, dist);
     cam.updateProjectionMatrix();
   }, [camera, size.width, size.height]);
@@ -121,7 +118,7 @@ export function GardenScene({ herName, onExit, onGrew }: { herName: string; onEx
           <VaseFloor />
           <Vase3D />
           <ContactShadows position={[0, 0.012, 0]} scale={2.6} blur={2.6} opacity={0.85} far={2.4} resolution={512} color="#1a0008" />
-          <RoseBouquet key={seed} seed={seed} count={count} onDone={onGrew} />
+          <RoseBouquet key={seed} seed={seed} count={count} spread={IS_MOBILE ? 0.5 : 1} onDone={onGrew} />
 
           <OrbitControls target={[0, 3.1, 0]} enablePan={false} enableZoom minDistance={3} maxDistance={26} minPolarAngle={0.2} maxPolarAngle={1.62} autoRotate autoRotateSpeed={0.5} enableDamping />
         </Suspense>
