@@ -14,6 +14,12 @@ const damp = THREE.MathUtils.damp;
 const WALK_END = 4.0;
 const WAVE_END = 6.8;
 
+const dampV = (v: THREE.Vector3, x: number, y: number, z: number, l: number, dt: number) => {
+  v.x = damp(v.x, x, l, dt);
+  v.y = damp(v.y, y, l, dt);
+  v.z = damp(v.z, z, l, dt);
+};
+
 export function Bear() {
   const root = useRef<THREE.Group>(null!);
   const lArm = useRef<THREE.Group>(null!);
@@ -48,6 +54,8 @@ export function Bear() {
       g.rotation.y = damp(g.rotation.y, -Math.PI / 2, 6, dt); // face the way it walks
       g.rotation.z = step * 0.12; // side-to-side waddle
       g.rotation.x = damp(g.rotation.x, 0.08, 6, dt); // lean into the walk
+      dampV(ll.position, -0.22, 0.34, 0, 10, dt);
+      dampV(rl.position, 0.22, 0.34, 0, 10, dt);
       ll.rotation.x = step * 0.75;
       rl.rotation.x = -step * 0.75;
       ll.rotation.z = 0;
@@ -65,6 +73,8 @@ export function Bear() {
       g.rotation.y = damp(g.rotation.y, 0.18, 6, dt); // turn to the viewer
       g.rotation.z = damp(g.rotation.z, 0, 8, dt);
       g.rotation.x = damp(g.rotation.x, 0, 8, dt);
+      dampV(ll.position, -0.22, 0.34, 0, 8, dt);
+      dampV(rl.position, 0.22, 0.34, 0, 8, dt);
       ll.rotation.x = damp(ll.rotation.x, 0, 8, dt);
       rl.rotation.x = damp(rl.rotation.x, 0, 8, dt);
       la.rotation.x = damp(la.rotation.x, 0, 8, dt);
@@ -77,14 +87,18 @@ export function Bear() {
     } else {
       if (stage !== 2) setStage(2);
       g.position.lerp(SIT, 0.22);
-      g.position.y = damp(g.position.y, -0.1, 6, dt); // settle down
+      g.position.y = damp(g.position.y, -0.05, 6, dt);
       g.rotation.y = damp(g.rotation.y, -0.22, 5, dt);
       g.rotation.z = damp(g.rotation.z, 0, 6, dt);
       g.rotation.x = damp(g.rotation.x, 0, 6, dt);
-      ll.rotation.x = damp(ll.rotation.x, -1.42, 6, dt);
-      rl.rotation.x = damp(rl.rotation.x, -1.25, 6, dt);
-      ll.rotation.z = damp(ll.rotation.z, 0.3, 6, dt);
-      rl.rotation.z = damp(rl.rotation.z, -0.3, 6, dt);
+      // drop the hips to the ground and push them forward so the legs stretch
+      // out in front instead of folding up into the belly
+      dampV(ll.position, -0.28, 0.1, 0.16, 6, dt);
+      dampV(rl.position, 0.28, 0.1, 0.16, 6, dt);
+      ll.rotation.x = damp(ll.rotation.x, -1.55, 6, dt);
+      rl.rotation.x = damp(rl.rotation.x, -1.5, 6, dt);
+      ll.rotation.z = damp(ll.rotation.z, 0.32, 6, dt);
+      rl.rotation.z = damp(rl.rotation.z, -0.32, 6, dt);
       la.rotation.x = damp(la.rotation.x, -0.6, 6, dt);
       la.rotation.z = damp(la.rotation.z, 0.24, 6, dt);
       ra.rotation.x = damp(ra.rotation.x, -0.6, 6, dt);
