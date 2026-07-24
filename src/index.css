@@ -431,7 +431,9 @@ h3 {
   position: absolute;
   top: 82px;
   left: 50%;
-  transform: translate(-50%, -50%);
+  /* centre with margins, not transform — the seal's Framer scale animation owns `transform` */
+  margin-left: -29px;
+  margin-top: -29px;
   z-index: 5;
   width: 58px;
   height: 58px;
