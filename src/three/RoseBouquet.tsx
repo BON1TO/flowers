@@ -63,7 +63,7 @@ interface Inst {
   phase: number;
 }
 
-export function RoseBouquet({ seed, count, spread = 1, onDone }: { seed: number; count: number; spread?: number; onDone?: () => void }) {
+export function RoseBouquet({ seed, count, spread = 1, mouthY = MOUTH_Y, heightBoost = 1, onDone }: { seed: number; count: number; spread?: number; mouthY?: number; heightBoost?: number; onDone?: () => void }) {
   const root = useMemo(() => new THREE.Group(), [seed]);
   const instances = useRef<Inst[]>([]);
   const built = useRef(0);
@@ -78,7 +78,7 @@ export function RoseBouquet({ seed, count, spread = 1, onDone }: { seed: number;
       d.z *= spread;
       d.normalize();
     }
-    const L = 1.3 + Math.max(d.y, 0) * 1.9 + rand(i, seed, 1) * 1.4; // taller toward the top, shorter cascading ones
+    const L = (1.3 + Math.max(d.y, 0) * 1.9 + rand(i, seed, 1) * 1.4) * heightBoost; // taller toward the top, shorter cascading ones
 
     // curved stem: rises up first, then arcs toward its dome direction
     const bx = (rand(i, seed, 2) - 0.5) * 0.45;
@@ -90,7 +90,7 @@ export function RoseBouquet({ seed, count, spread = 1, onDone }: { seed: number;
     const curve = new THREE.QuadraticBezierCurve3(base, ctrl, tip);
 
     const flower = new THREE.Group();
-    flower.position.set(0, MOUTH_Y - 0.06, 0);
+    flower.position.set(0, mouthY - 0.06, 0);
     root.add(flower);
 
     const tubeGeo = new THREE.TubeGeometry(curve, 26, 0.028, 5, false);
