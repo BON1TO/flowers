@@ -44,7 +44,11 @@ function FitCamera() {
     const distH = halfH / Math.tan(vfov / 2);
     const hfov = 2 * Math.atan(Math.tan(vfov / 2) * aspect);
     const distW = halfW / Math.tan(hfov / 2);
-    const dist = Math.min(Math.max(Math.max(distH, distW) * 1.06, 4), 22);
+    // desktop: contain the whole bouquet. phones: fill the tall screen (taller/bigger),
+    // letting the outermost side flowers spill past the edges so it covers more.
+    const contain = Math.max(distH, distW) * 1.06;
+    const cover = distH * 1.16;
+    const dist = Math.min(Math.max(IS_MOBILE ? cover : contain, 4), 26);
     cam.position.set(0, 3.3, dist);
     cam.updateProjectionMatrix();
   }, [camera, size.width, size.height]);

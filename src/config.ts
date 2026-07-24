@@ -7,7 +7,7 @@
 export const CONFIG = {
   herName: "Sugandh", // ← shown on the question page
   bouquetName: "my baby", // ← shown on the bouquet page ("For my baby")
-  letterGreeting: "sugguu baby", // ← how the letter opens
+  letterGreeting: "Sugguu baby", // ← how the letter opens
   enterButton: "A little gift from me", // ← the button under the letter
   yourName: "Yours, always", // ← how you sign off
 
