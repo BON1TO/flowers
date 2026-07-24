@@ -46,7 +46,7 @@ function FitCamera() {
     const hfov = 2 * Math.atan(Math.tan(vfov / 2) * aspect);
     const distW = halfW / Math.tan(hfov / 2);
     const dist = Math.min(Math.max(Math.max(distH, distW) * 1.04, 4), 26);
-    cam.position.set(0, IS_MOBILE ? 3.05 : 3.3, dist);
+    cam.position.set(0, 3.3, dist);
     cam.updateProjectionMatrix();
   }, [camera, size.width, size.height]);
   return null;
@@ -116,14 +116,11 @@ export function GardenScene({ herName, onExit, onGrew }: { herName: string; onEx
           <pointLight position={[0, 4.2, 3]} intensity={0.9} color="#ffe3ef" distance={14} />
 
           <VaseFloor />
-          {/* phones: a taller vase so it fills the bottom of the screen a bit more */}
-          <group scale={[1, IS_MOBILE ? 1.45 : 1, 1]}>
-            <Vase3D />
-          </group>
+          <Vase3D />
           <ContactShadows position={[0, 0.012, 0]} scale={2.6} blur={2.6} opacity={0.85} far={2.4} resolution={512} color="#1a0008" />
-          <RoseBouquet key={seed} seed={seed} count={count} spread={1} mouthY={IS_MOBILE ? 1.9 : 1.34} heightBoost={IS_MOBILE ? 1.45 : 1} onDone={onGrew} />
+          <RoseBouquet key={seed} seed={seed} count={count} onDone={onGrew} />
 
-          <OrbitControls target={[0, IS_MOBILE ? 3.05 : 3.1, 0]} enablePan={false} enableZoom minDistance={3} maxDistance={26} minPolarAngle={0.2} maxPolarAngle={1.62} autoRotate autoRotateSpeed={0.5} enableDamping />
+          <OrbitControls target={[0, 3.1, 0]} enablePan={false} enableZoom minDistance={3} maxDistance={26} minPolarAngle={0.2} maxPolarAngle={1.62} autoRotate autoRotateSpeed={0.5} enableDamping />
         </Suspense>
       </Canvas>
 
