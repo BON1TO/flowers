@@ -6,6 +6,7 @@ import type { PerspectiveCamera } from "three";
 import { RoseBouquet } from "./RoseBouquet";
 import { Vase3D } from "./Vase3D";
 import { Bear } from "./Bear";
+import { Books } from "./Books";
 
 const IS_MOBILE = typeof window !== "undefined" && (window.matchMedia("(pointer: coarse)").matches || Math.min(window.innerWidth, window.innerHeight) < 560);
 const MAX_FLOWERS = IS_MOBILE ? 48 : 74;
@@ -120,6 +121,7 @@ export function GardenScene({ herName, onExit, onGrew }: { herName: string; onEx
           <Vase3D />
           <ContactShadows position={[0, 0.012, 0]} scale={2.6} blur={2.6} opacity={0.85} far={2.4} resolution={512} color="#1a0008" />
           <RoseBouquet key={seed} seed={seed} count={count} onDone={onGrew} />
+          <Books />
           <Bear />
 
           <OrbitControls target={[0, 3.1, 0]} enablePan={false} enableZoom minDistance={3} maxDistance={26} minPolarAngle={0.2} maxPolarAngle={1.62} autoRotate autoRotateSpeed={0.5} enableDamping />
