@@ -17,7 +17,7 @@ export default function App() {
 
   // quick preview of the 3D garden for calibration: open with #garden
   if (typeof window !== "undefined" && window.location.hash === "#garden") {
-    return <GardenScene herName={CONFIG.herName} onExit={() => (window.location.hash = "")} onGrew={() => {}} />;
+    return <GardenScene herName={CONFIG.bouquetName} onExit={() => (window.location.hash = "")} onGrew={() => {}} />;
   }
 
   return (

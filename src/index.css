@@ -950,13 +950,16 @@ h3 {
     left: 12px;
   }
   .garden-title {
-    left: 9px;
-    font-size: clamp(1rem, 4.6vw, 1.4rem);
+    left: 0;
+    right: 0;
+    top: 12px;
+    transform: none;
+    writing-mode: horizontal-tb;
+    text-align: center;
+    font-size: clamp(1.15rem, 5vw, 1.6rem);
   }
   .garden-hint {
-    right: 9px;
-    font-size: 0.58rem;
-    letter-spacing: 0.12em;
+    display: none; /* hide "drag to rotate…" on phones */
   }
   .garden-controls {
     bottom: 12px;

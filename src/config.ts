@@ -5,7 +5,10 @@
    ============================================================ */
 
 export const CONFIG = {
-  herName: "Sugandh", // ← put her name here
+  herName: "Sugandh", // ← shown on the question page
+  bouquetName: "my baby", // ← shown on the bouquet page ("For my baby")
+  letterGreeting: "sugguu baby", // ← how the letter opens
+  enterButton: "A little gift from me", // ← the button under the letter
   yourName: "Yours, always", // ← how you sign off
 
   // Page 1 — the question
@@ -36,7 +39,7 @@ export const CONFIG = {
     "When you're far from me, I catch myself saving up kisses to give you later. One for your forehead. " +
     "One for the tip of your nose. And a hundred slow ones just for your lips. " +
     "So here is my promise. I will choose you on the easy days, and hold you closer on the hard ones. " +
-    "Thank you for being mine. Now come here. I still owe you that kiss. 💋",
+    "Now come here. I still owe you that kiss. 💋",
 
   // Ambient music + sounds default on?
   soundDefaultOn: false,

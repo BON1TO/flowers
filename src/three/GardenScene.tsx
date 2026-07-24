@@ -1,6 +1,7 @@
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, ContactShadows } from "@react-three/drei";
+import * as THREE from "three";
 import type { PerspectiveCamera } from "three";
 import { RoseBouquet } from "./RoseBouquet";
 import { Vase3D } from "./Vase3D";
@@ -8,6 +9,28 @@ import { Vase3D } from "./Vase3D";
 const IS_MOBILE = typeof window !== "undefined" && (window.matchMedia("(pointer: coarse)").matches || Math.min(window.innerWidth, window.innerHeight) < 560);
 const MAX_FLOWERS = IS_MOBILE ? 48 : 74;
 const START_FLOWERS = IS_MOBILE ? 12 : 16;
+
+/** a soft glow-pool under the vase so it sits grounded (a shadow alone can't show on the dark scene) */
+function VaseFloor() {
+  const tex = useMemo(() => {
+    const c = document.createElement("canvas");
+    c.width = c.height = 128;
+    const ctx = c.getContext("2d")!;
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, "rgba(255,170,205,0.55)");
+    g.addColorStop(0.4, "rgba(150,70,110,0.2)");
+    g.addColorStop(1, "rgba(0,0,0,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 128, 128);
+    return new THREE.CanvasTexture(c);
+  }, []);
+  return (
+    <mesh position={[0, 0.004, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+      <circleGeometry args={[1.9, 48]} />
+      <meshBasicMaterial map={tex} transparent depthWrite={false} blending={THREE.AdditiveBlending} opacity={0.55} />
+    </mesh>
+  );
+}
 
 /** keeps the whole bouquet framed no matter the aspect ratio (portrait phones included) */
 function FitCamera() {
@@ -91,7 +114,9 @@ export function GardenScene({ herName, onExit, onGrew }: { herName: string; onEx
           <directionalLight position={[-5, 3, -5]} intensity={1.1} color="#9cc0ff" />
           <pointLight position={[0, 4.2, 3]} intensity={0.9} color="#ffe3ef" distance={14} />
 
+          <VaseFloor />
           <Vase3D />
+          <ContactShadows position={[0, 0.012, 0]} scale={2.6} blur={2.6} opacity={0.85} far={2.4} resolution={512} color="#1a0008" />
           <RoseBouquet key={seed} seed={seed} count={count} onDone={onGrew} />
 
           <OrbitControls target={[0, 3.1, 0]} enablePan={false} enableZoom minDistance={3} maxDistance={26} minPolarAngle={0.2} maxPolarAngle={1.62} autoRotate autoRotateSpeed={0.5} enableDamping />

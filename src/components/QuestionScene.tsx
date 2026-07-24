@@ -84,7 +84,7 @@ export function QuestionScene({ onYes, onFirstInteract }: Props) {
         <p className="eyebrow">a very important question</p>
         <h1 className="ask-q">{CONFIG.question}</h1>
         <p className="ask-dear">
-          …dearest <span className="script">{CONFIG.herName}</span>
+          <span className="script">{CONFIG.herName}</span>
         </p>
 
         <div className="ask-buttons">

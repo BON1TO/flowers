@@ -71,7 +71,7 @@ export function Boutique({ onPluck, onPop }: Props) {
             <p className="l-date">{CONFIG.letterDate}</p>
             <h1 className="l-title">{CONFIG.letterTitle}</h1>
             <p className="l-greet">
-              My dearest <span className="script">{CONFIG.herName}</span>,
+              <span className="script">{CONFIG.letterGreeting}</span>,
             </p>
             <p className="l-body">
               {typed}
@@ -97,7 +97,7 @@ export function Boutique({ onPluck, onPop }: Props) {
                     setEntered(true);
                   }}
                 >
-                  Watch our garden grow 🌷
+                  {CONFIG.enterButton} 🎁
                 </button>
               </motion.div>
             )}
@@ -109,7 +109,7 @@ export function Boutique({ onPluck, onPop }: Props) {
       <AnimatePresence>
         {entered && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.6 }}>
-            <GardenScene herName={CONFIG.herName} onExit={() => setEntered(false)} onGrew={onPop} />
+            <GardenScene herName={CONFIG.bouquetName} onExit={() => setEntered(false)} onGrew={onPop} />
           </motion.div>
         )}
       </AnimatePresence>
