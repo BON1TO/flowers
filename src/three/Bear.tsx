@@ -14,12 +14,6 @@ const damp = THREE.MathUtils.damp;
 const WALK_END = 4.0;
 const WAVE_END = 6.8;
 
-const dampV = (v: THREE.Vector3, x: number, y: number, z: number, l: number, dt: number) => {
-  v.x = damp(v.x, x, l, dt);
-  v.y = damp(v.y, y, l, dt);
-  v.z = damp(v.z, z, l, dt);
-};
-
 export function Bear() {
   const root = useRef<THREE.Group>(null!);
   const lArm = useRef<THREE.Group>(null!);
@@ -49,22 +43,21 @@ export function Bear() {
       const p = Math.min(t / WALK_END, 1);
       const e = 1 - Math.pow(1 - p, 2);
       g.position.lerpVectors(START, SIT, e);
-      const step = Math.sin(t * 6.2); // slower, cuter cadence
-      g.position.y = Math.abs(step) * 0.06; // bob on each step
+      // a plush toy doesn't stride — it waddles: rock side to side + little hops
+      const step = Math.sin(t * 5.4);
+      g.position.y = Math.abs(step) * 0.09;
       g.rotation.y = damp(g.rotation.y, -Math.PI / 2, 6, dt); // face the way it walks
-      g.rotation.z = step * 0.12; // side-to-side waddle
-      g.rotation.x = damp(g.rotation.x, 0.08, 6, dt); // lean into the walk
-      dampV(ll.position, -0.22, 0.34, 0, 10, dt);
-      dampV(rl.position, 0.22, 0.34, 0, 10, dt);
-      ll.rotation.x = step * 0.75;
-      rl.rotation.x = -step * 0.75;
+      g.rotation.z = step * 0.17; // rock
+      g.rotation.x = damp(g.rotation.x, 0.04, 6, dt);
+      ll.rotation.x = step * 0.4; // gentle leg swing (legs stay on the hips)
+      rl.rotation.x = -step * 0.4;
       ll.rotation.z = 0;
       rl.rotation.z = 0;
-      la.rotation.x = -step * 0.6;
-      ra.rotation.x = step * 0.6;
+      la.rotation.x = -step * 0.45;
+      ra.rotation.x = step * 0.45;
       la.rotation.z = 0.16;
       ra.rotation.z = -0.16;
-      hd.rotation.x = Math.abs(step) * 0.06;
+      hd.rotation.x = Math.abs(step) * 0.05;
       hd.rotation.z = step * 0.03;
     } else if (t < WAVE_END) {
       if (stage !== 1) setStage(1);
@@ -73,8 +66,6 @@ export function Bear() {
       g.rotation.y = damp(g.rotation.y, 0.18, 6, dt); // turn to the viewer
       g.rotation.z = damp(g.rotation.z, 0, 8, dt);
       g.rotation.x = damp(g.rotation.x, 0, 8, dt);
-      dampV(ll.position, -0.22, 0.34, 0, 8, dt);
-      dampV(rl.position, 0.22, 0.34, 0, 8, dt);
       ll.rotation.x = damp(ll.rotation.x, 0, 8, dt);
       rl.rotation.x = damp(rl.rotation.x, 0, 8, dt);
       la.rotation.x = damp(la.rotation.x, 0, 8, dt);
@@ -87,21 +78,18 @@ export function Bear() {
     } else {
       if (stage !== 2) setStage(2);
       g.position.lerp(SIT, 0.22);
-      g.position.y = damp(g.position.y, -0.05, 6, dt);
-      g.rotation.y = damp(g.rotation.y, -0.22, 5, dt);
+      g.position.y = damp(g.position.y, -0.18, 6, dt); // sit low so the legs reach the ground
+      g.rotation.y = damp(g.rotation.y, -0.2, 5, dt);
       g.rotation.z = damp(g.rotation.z, 0, 6, dt);
       g.rotation.x = damp(g.rotation.x, 0, 6, dt);
-      // drop the hips to the ground and push them forward so the legs stretch
-      // out in front instead of folding up into the belly
-      dampV(ll.position, -0.28, 0.1, 0.16, 6, dt);
-      dampV(rl.position, 0.28, 0.1, 0.16, 6, dt);
-      ll.rotation.x = damp(ll.rotation.x, -1.55, 6, dt);
-      rl.rotation.x = damp(rl.rotation.x, -1.5, 6, dt);
-      ll.rotation.z = damp(ll.rotation.z, 0.32, 6, dt);
-      rl.rotation.z = damp(rl.rotation.z, -0.32, 6, dt);
-      la.rotation.x = damp(la.rotation.x, -0.6, 6, dt);
+      // legs stay on the hips and swing forward to horizontal (out in front, on the ground)
+      ll.rotation.x = damp(ll.rotation.x, -1.62, 6, dt);
+      rl.rotation.x = damp(rl.rotation.x, -1.58, 6, dt);
+      ll.rotation.z = damp(ll.rotation.z, 0.26, 6, dt);
+      rl.rotation.z = damp(rl.rotation.z, -0.26, 6, dt);
+      la.rotation.x = damp(la.rotation.x, -0.55, 6, dt);
       la.rotation.z = damp(la.rotation.z, 0.24, 6, dt);
-      ra.rotation.x = damp(ra.rotation.x, -0.6, 6, dt);
+      ra.rotation.x = damp(ra.rotation.x, -0.55, 6, dt);
       ra.rotation.z = damp(ra.rotation.z, -0.24, 6, dt);
       hd.rotation.x = damp(hd.rotation.x, 0, 6, dt);
       hd.rotation.z = Math.sin(state.clock.elapsedTime * 1.4) * 0.05; // idle
@@ -115,7 +103,7 @@ export function Bear() {
   return (
     <group ref={root} position={[4.2, 0, 1.9]} scale={1.0}>
       {/* legs (chubby, with paw pads) */}
-      <group ref={lLeg} position={[-0.22, 0.34, 0]}>
+      <group ref={lLeg} position={[-0.22, 0.34, 0.05]}>
         <mesh position={[0, -0.2, 0.05]} rotation={[0.25, 0, 0]}>
           <capsuleGeometry args={[0.17, 0.2, 8, 14]} />
           {fur}
@@ -129,7 +117,7 @@ export function Bear() {
           {tan}
         </mesh>
       </group>
-      <group ref={rLeg} position={[0.22, 0.34, 0]}>
+      <group ref={rLeg} position={[0.22, 0.34, 0.05]}>
         <mesh position={[0, -0.2, 0.05]} rotation={[0.25, 0, 0]}>
           <capsuleGeometry args={[0.17, 0.2, 8, 14]} />
           {fur}
